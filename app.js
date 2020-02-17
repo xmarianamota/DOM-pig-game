@@ -24,7 +24,8 @@ GAME RULES:
 // (Hint: you will need CSS to position the second dice, 
 // so take a look at the CSS code for the first one). 
 
-var scores, roundScore, activePlayer, gamePlaying;
+var scores, roundScore, activePlayer, gamePlaying, previousDice, winnerScore;
+
 init();
 
 // Event Listner for clicking the button to roll the dice
@@ -32,6 +33,7 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     if(gamePlaying) {
         // Creates random numbers for the dice
         var dice = Math.floor(Math.random() * 6) + 1;
+        //var dice = 6;
 
         // Displays the result using the jpg images
         var diceDOM = document.querySelector('.dice');
@@ -39,15 +41,27 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
         // Changing the image of the element
         diceDOM.src = 'dice-' + dice + '.png';
 
-        // Swaps the player if dice number equals to 1
-        if (dice !== 1) {
+        if(dice === 6 && previousDice === 6) {
+            scores[activePlayer] = 0; 
+            document.querySelector('#score-' + activePlayer).textContent = '0';
+            alert("Two 6 in a row! Sorry, you just lost all your points.");
+            nextPlayer();
+        } else if (dice !== 1) {
             roundScore += dice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore; 
         } else {
             nextPlayer();
         }
+        previousDice = dice; 
     }
 });
+
+// Creating a button so users can set their own winner score from the GUI
+
+document.querySelector('.btn-winner-score').addEventListener('click', function() {
+    winnerScore = parseInt(prompt("Set a new number for the winner score", "For example, 20"));
+});
+
 
 // Event Listner for clicking the button to hold the number
 
@@ -59,7 +73,7 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
         document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
     // Changing the active player if the other press the hold button
      // Checks if player won the game
-        if (scores[activePlayer] >= 20) {
+        if (scores[activePlayer] >= winnerScore) {
          // Displaying "Winner" as a text
             document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
         // Removing the dice from the game
@@ -89,13 +103,16 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
 // Implementing a "new game" button
 document.querySelector('.btn-new').addEventListener('click', init);
 
+
+
 // Creating a initilization function 
 function init() {
     scores = [0, 0];
     activePlayer = 0;
     roundScore = 0;
     gamePlaying = true; 
-    
+    winnerScore = 100;
+
     document.querySelector('.dice').style.display = 'none';
 
     document.getElementById('score-0').textContent = '0';
