@@ -9,6 +9,21 @@ GAME RULES:
 
 */
 
+////////////////// CHALLENGE INSTRUCTIONS ///////////////////////
+// 1. A player looses its ENTIRE score when it rolls two 6 in a row. 
+// After that, it's the next player's turn. 
+// (Hint: always save the previous dice roll in a separate variable).
+
+// 2. Add an input field to the html where players can set the winning score, 
+// so that they can change the predefined score of 100. 
+// (Hint: you can read that value with the .value property in the JavaScript. 
+// This is a good opportunity to use google to figure this out
+
+// 3. Add another dice to the game, so there are two dices. 
+// The players looses its current score when ONE of them is a 1. 
+// (Hint: you will need CSS to position the second dice, 
+// so take a look at the CSS code for the first one). 
+
 var scores, roundScore, activePlayer, gamePlaying;
 init();
 
