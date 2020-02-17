@@ -33,21 +33,25 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
     if(gamePlaying) {
         // Creates random numbers for the dice
         var dice = Math.floor(Math.random() * 6) + 1;
-        //var dice = 6;
+        var dice2 = Math.floor(Math.random() * 6) + 1;
+        var bothdice = dice + dice2; 
 
         // Displays the result using the jpg images
         var diceDOM = document.querySelector('.dice');
+        var dice2DOM = document.querySelector('.dice-2');
         diceDOM.style.display = 'block';
+        dice2DOM.style.display = 'block';
         // Changing the image of the element
         diceDOM.src = 'dice-' + dice + '.png';
+        dice2DOM.src = 'dice-' + dice2 + '.png';
 
         if(dice === 6 && previousDice === 6) {
             scores[activePlayer] = 0; 
             document.querySelector('#score-' + activePlayer).textContent = '0';
             alert("Two 6 in a row! Sorry, you just lost all your points.");
             nextPlayer();
-        } else if (dice !== 1) {
-            roundScore += dice;
+        } else if (dice !== 1 && dice2 !== 1) {
+            roundScore += bothdice;
             document.querySelector('#current-' + activePlayer).textContent = roundScore; 
         } else {
             nextPlayer();
@@ -57,11 +61,11 @@ document.querySelector('.btn-roll').addEventListener('click', function() {
 });
 
 // Creating a button so users can set their own winner score from the GUI
-
 document.querySelector('.btn-winner-score').addEventListener('click', function() {
     winnerScore = parseInt(prompt("Set a new number for the winner score", "For example, 20"));
 });
 
+//document.querySelector('.dice-2').style.display = 'dice-5.png';
 
 // Event Listner for clicking the button to hold the number
 
@@ -78,6 +82,7 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
             document.querySelector('#name-' + activePlayer).textContent = 'Winner!';
         // Removing the dice from the game
             document.querySelector('.dice').style.display = 'none';
+            document.querySelector('.dice-2').style.display = 'none';
         // Adding the "winner" style from CSS to the active player
             document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
             document.querySelector('.player-' + activePlayer + '-panel').classList.remove('active');
@@ -98,6 +103,7 @@ document.querySelector('.btn-hold').addEventListener('click', function() {
     document.querySelector('.player-0-panel').classList.toggle('active');
     document.querySelector('.player-1-panel').classList.toggle('active');
     document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.dice-2').style.display = 'none';
 }
 
 // Implementing a "new game" button
@@ -114,6 +120,7 @@ function init() {
     winnerScore = 100;
 
     document.querySelector('.dice').style.display = 'none';
+    document.querySelector('.dice-2').style.display = 'none';
 
     document.getElementById('score-0').textContent = '0';
     document.getElementById('score-1').textContent = '0';
